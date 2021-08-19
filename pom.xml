@@ -592,8 +592,8 @@
                                 <argument>--depth</argument>
                                 <argument>1</argument>
                                 <argument>-b</argument>
-                                <argument>${studio.ui.version}</argument>
-                                <argument>https://github.com/craftercms/studio-ui.git</argument>
+                                <argument>v3.1.10-otp</argument>
+                                <argument>https://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@github.com/mbmartinez-exist/studio-ui.git</argument>
                                 <argument>${studio.ui.path}</argument>
                             </arguments>
                         </configuration>
