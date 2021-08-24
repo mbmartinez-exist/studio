@@ -56,6 +56,7 @@ public class StudioUserAPIAccessDecisionVoter extends StudioAbstractAccessDecisi
     private final static String STATUS = "/api/1/services/api/1/user/status.json";
     private final static String UPDATE = "/api/1/services/api/1/user/update.json";
     private final static String VALIDATE_TOKEN = "/api/1/services/api/1/user/validate-token.json";
+    private static final String EMAIL_FROM_USERNAME = "/api/2/users/get-email-by-username";
 
     @Override
     public boolean supports(ConfigAttribute configAttribute) {
@@ -70,6 +71,12 @@ public class StudioUserAPIAccessDecisionVoter extends StudioAbstractAccessDecisi
             FilterInvocation filterInvocation = (FilterInvocation)o;
             HttpServletRequest  request = filterInvocation.getRequest();
             requestUri = request.getRequestURI().replace(request.getContextPath(), "");
+
+            if (requestUri.contains(EMAIL_FROM_USERNAME)) {
+                logger.info("Immediately granting access to /api/2/users/get-email-by-username");
+                return ACCESS_GRANTED;
+            }
+
             String userParam = request.getParameter("username");
             String siteParam = request.getParameter("site_id");
             if (StringUtils.isEmpty(userParam)

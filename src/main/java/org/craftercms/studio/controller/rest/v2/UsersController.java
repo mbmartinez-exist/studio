@@ -35,6 +35,7 @@ import org.craftercms.studio.model.AuthenticatedUser;
 import org.craftercms.studio.model.rest.ResetPasswordRequest;
 import org.craftercms.studio.model.rest.SetPasswordRequest;
 import org.craftercms.studio.model.Site;
+import org.craftercms.studio.model.rest.ApiResponse;
 import org.craftercms.studio.model.rest.ChangePasswordRequest;
 import org.craftercms.studio.model.rest.EnableUsers;
 import org.craftercms.studio.model.rest.PaginatedResultList;
@@ -108,6 +109,29 @@ public class UsersController {
     private GroupService groupService;
     private SiteService siteService;
     private StudioConfiguration studioConfiguration;
+
+    @GetMapping("/get-email-by-username/{username}")
+    public ResponseBody getEmailByUsername(@PathVariable String username) {
+        ResponseBody responseBody = new ResponseBody();
+        ResultOne<String> ro = new ResultOne<>();
+        responseBody.setResult(ro);
+
+        try {
+            User user = userService.getUserByIdOrUsername(-1, username);
+            if (null != user) {
+                ro.setEntity("email", user.getEmail());
+                ro.setResponse(OK);
+            } else {
+                ro.setEntity("error", "Username not found");
+                ro.setResponse(ApiResponse.USER_NOT_FOUND);
+            }
+        } catch (Exception e) {
+            ro.setResponse(ApiResponse.USER_NOT_FOUND);
+            ro.setEntity("error", e.getMessage());
+        }
+
+        return responseBody;
+    }
 
     /**
      * Get all users API
