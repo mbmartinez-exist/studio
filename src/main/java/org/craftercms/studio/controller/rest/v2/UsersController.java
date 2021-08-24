@@ -110,8 +110,8 @@ public class UsersController {
     private SiteService siteService;
     private StudioConfiguration studioConfiguration;
 
-    @GetMapping("/get-email-by-username/{username}")
-    public ResponseBody getEmailByUsername(@PathVariable String username) {
+    @GetMapping("/get-email-by-username")
+    public ResponseBody getEmailByUsername(@RequestParam String username) {
         ResponseBody responseBody = new ResponseBody();
         ResultOne<String> ro = new ResultOne<>();
         responseBody.setResult(ro);

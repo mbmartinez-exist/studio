@@ -72,11 +72,7 @@ public class StudioUserAPIAccessDecisionVoter extends StudioAbstractAccessDecisi
             HttpServletRequest  request = filterInvocation.getRequest();
             requestUri = request.getRequestURI().replace(request.getContextPath(), "");
 
-            if (requestUri.contains(EMAIL_FROM_USERNAME)) {
-                logger.info("Immediately granting access to /api/2/users/get-email-by-username");
-                return ACCESS_GRANTED;
-            }
-
+            logger.info("Voting... requestUri={}", requestUri);
             String userParam = request.getParameter("username");
             String siteParam = request.getParameter("site_id");
             if (StringUtils.isEmpty(userParam)
@@ -118,6 +114,7 @@ public class StudioUserAPIAccessDecisionVoter extends StudioAbstractAccessDecisi
                 case LOGOUT:
                 case SET_PASSWORD:
                 case VALIDATE_TOKEN:
+                case EMAIL_FROM_USERNAME:
                     toRet = ACCESS_GRANTED;
                     break;
                 case CHANGE_PASSWORD:
