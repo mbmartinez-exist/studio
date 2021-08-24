@@ -112,6 +112,7 @@ public class UsersController {
 
     @GetMapping("/get-email-by-username")
     public ResponseBody getEmailByUsername(@RequestParam String username) {
+        logger.info("Trying to find user with username={}", username);
         ResponseBody responseBody = new ResponseBody();
         ResultOne<String> ro = new ResultOne<>();
         responseBody.setResult(ro);
@@ -119,13 +120,16 @@ public class UsersController {
         try {
             User user = userService.getUserByIdOrUsername(-1, username);
             if (null != user) {
+                logger.info("Success. user email={}", user.getEmail());
                 ro.setEntity("email", user.getEmail());
                 ro.setResponse(OK);
             } else {
+                logger.error("User not found. un={}", username);
                 ro.setEntity("error", "Username not found");
                 ro.setResponse(ApiResponse.USER_NOT_FOUND);
             }
         } catch (Exception e) {
+            logger.error("Exception trying to find user by username. un={}", e, username);
             ro.setResponse(ApiResponse.USER_NOT_FOUND);
             ro.setEntity("error", e.getMessage());
         }
