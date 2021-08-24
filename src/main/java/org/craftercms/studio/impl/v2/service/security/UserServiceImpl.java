@@ -247,12 +247,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @HasPermission(type = DefaultPermission.class, action = "read_users")
     public User getUserByIdOrUsername(long userId, String username)
             throws ServiceLayerException, UserNotFoundException {
         return userServiceInternal.getUserByIdOrUsername(userId, username);
     }
+    //removed to allow anonymous access to org.craftercms.studio.controller.rest.v2.UsersController.getEmailByUsername(String)
+    //@HasPermission(type = DefaultPermission.class, action = "read_users")
 
+    
     @Override
     @HasPermission(type = DefaultPermission.class, action = "update_users")
     public List<User> enableUsers(List<Long> userIds, List<String> usernames,
